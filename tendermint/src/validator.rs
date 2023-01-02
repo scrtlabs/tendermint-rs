@@ -38,16 +38,11 @@ impl TryFrom<RawValidatorSet> for Set {
             .collect::<Result<Vec<_>, _>>()?;
 
         let proposer = value.proposer.map(TryInto::try_into).transpose()?;
-        let validator_set = Self::new(validators, proposer);
 
-        // Ensure that the raw voting power matches the computed one
-        let raw_voting_power = value.total_voting_power.try_into()?;
-        if raw_voting_power != validator_set.total_voting_power() {
-            return Err(Error::raw_voting_power_mismatch(
-                raw_voting_power,
-                validator_set.total_voting_power(),
-            ));
-        }
+        // NOTE: We can't trust the total voting power given to us by other peers. If someone were to
+        // inject a non-zeo value that wasn't the correct voting power we could assume a wrong total
+        // power hence we need to recompute it.
+        let validator_set = Self::new(validators, proposer);
 
         Ok(validator_set)
     }
