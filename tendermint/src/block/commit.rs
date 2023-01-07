@@ -32,6 +32,8 @@ pub struct Commit {
     pub signatures: Vec<CommitSig>,
 }
 
+impl tendermint_proto::Protobuf<RawCommit> for Commit {}
+
 impl TryFrom<RawCommit> for Commit {
     type Error = Error;
 
