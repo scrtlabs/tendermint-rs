@@ -1,3 +1,4 @@
+#![feature(once_cell)]
 #![allow(unused)]
 
 use std::{convert::Infallible, str::FromStr, time::Duration};

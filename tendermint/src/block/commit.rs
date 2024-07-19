@@ -38,8 +38,6 @@ tendermint_pb_modules! {
     };
     use pb::types::Commit as RawCommit;
 
-    impl tendermint_proto::Protobuf<RawCommit> for Commit {}
-
     impl TryFrom<RawCommit> for Commit {
         type Error = Error;
 
