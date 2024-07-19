@@ -37,7 +37,7 @@ impl Set {
     fn try_from_parts(
         mut validators: Vec<Info>,
         proposer: Option<Info>,
-        unvalidated_total_voting_power: i64,
+        _unvalidated_total_voting_power: i64,
     ) -> Result<Set, Error> {
         // Compute the total voting power
         let total_voting_power = validators
@@ -54,12 +54,16 @@ impl Set {
 
         // If the given total voting power is not the default value,
         // validate it against the sum of voting powers of the participants.
-        if unvalidated_total_voting_power != 0 {
-            let given_val: vote::Power = unvalidated_total_voting_power.try_into()?;
-            if given_val != total_voting_power {
-                return Err(Error::total_voting_power_mismatch());
-            }
-        }
+        //
+        // NOTE: We can't trust the total voting power given to us by other peers. If someone were to
+        // inject a non-zeo value that wasn't the correct voting power we could assume a wrong total
+        // power hence we need to recompute it.
+        // if unvalidated_total_voting_power != 0 {
+            // let given_val: vote::Power = unvalidated_total_voting_power.try_into()?;
+            // if given_val != total_voting_power {
+                // return Err(Error::total_voting_power_mismatch());
+            // }
+        // }
 
         Self::sort_validators(&mut validators);
 
