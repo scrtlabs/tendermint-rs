@@ -50,10 +50,16 @@ pub struct Block {
     pub last_commit: Option<Commit>,
 }
 
+#[derive(Clone)]
+pub struct Data {
+    pub txs: Vec<Vec<u8>>,
+}
+
 tendermint_pb_modules! {
-    use super::{Block, Header, Commit};
+    use super::{Block, Header, Commit, Data};
     use crate::{Error, prelude::*};
     use pb::types::Block as RawBlock;
+    use pb::types::Data as RawData;
 
     impl Protobuf<RawBlock> for Block {}
 
@@ -81,7 +87,6 @@ tendermint_pb_modules! {
 
     impl From<Block> for RawBlock {
         fn from(value: Block) -> Self {
-            use pb::types::Data as RawData;
             RawBlock {
                 header: Some(value.header.into()),
                 data: Some(RawData { txs: value.data }),
@@ -90,6 +95,27 @@ tendermint_pb_modules! {
             }
         }
     }
+
+    impl Protobuf<RawData> for Data {}
+
+    impl TryFrom<RawData> for Data {
+        type Error = Error;
+
+        fn try_from(value: RawData) -> Result<Self, Self::Error> {
+            Ok(Data::new(
+                value.txs,
+            ))
+        }
+    }
+
+    impl From<Data> for RawData {
+        fn from(value: Data) -> Self {
+            RawData {
+                txs: value.txs,
+            }
+        }
+    }
+
 }
 
 impl Block {
@@ -126,5 +152,11 @@ impl Block {
     /// Get last commit
     pub fn last_commit(&self) -> &Option<Commit> {
         &self.last_commit
+    }
+}
+
+impl Data {
+    pub fn new(txs: Vec<Vec<u8>>) -> Self {
+        Self { txs }
     }
 }
