@@ -1,5 +1,6 @@
 //! Provides an interface and default implementation for the `VotingPower` operation
 
+use log::debug;
 use alloc::collections::BTreeSet as HashSet;
 use core::{convert::TryFrom, fmt};
 
@@ -74,6 +75,8 @@ pub trait VotingPowerCalculator: Send + Sync {
         untrusted_validators: &ValidatorSet,
     ) -> Result<(), VerificationError> {
         let trust_threshold = TrustThreshold::TWO_THIRDS;
+        debug!("UNTRUSTED_HEADER {:?}", untrusted_header);
+        debug!("UNTRUSTED_VALIDATORS {:?}", untrusted_validators);
         let voting_power =
             self.voting_power_in(untrusted_header, untrusted_validators, trust_threshold)?;
 
