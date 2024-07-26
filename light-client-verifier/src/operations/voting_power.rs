@@ -1,5 +1,6 @@
 //! Provides an interface and default implementation for the `VotingPower` operation
 
+use log::debug;
 use alloc::vec::Vec;
 use core::{fmt, marker::PhantomData};
 
@@ -122,6 +123,8 @@ pub trait VotingPowerCalculator: Send + Sync {
         untrusted_validators: &ValidatorSet,
     ) -> Result<(), VerificationError> {
         let trust_threshold = TrustThreshold::TWO_THIRDS;
+        debug!("UNTRUSTED_HEADER {:?}", untrusted_header);
+        debug!("UNTRUSTED_VALIDATORS {:?}", untrusted_validators);
         self.voting_power_in(untrusted_header, untrusted_validators, trust_threshold)?
             .check()
             .map_err(VerificationError::insufficient_signers_overlap)
@@ -412,6 +415,7 @@ fn voting_power_in_impl<V: signature::Verifier>(
 ) -> Result<VotingPowerTally, VerificationError> {
     let mut power = VotingPowerTally::new(total_voting_power, trust_threshold);
     for validator in validator_set.validators() {
+        debug!("VALIDATOR {:?}", validator);
         if votes.has_voted::<V>(validator)? {
             power.tally(validator.power());
             // Break out of the loop when we have enough voting power.

@@ -27,6 +27,7 @@ default = ["rust-crypto", "flex-error/std"]
 rust-crypto = ["tendermint/rust-crypto"]
 
 [dependencies]
+log = "0.4.22"
 tendermint = { version = "0.38.0", path = "../tendermint", default-features = false }
 
 derive_more = { version = "0.99.5", default-features = false, features = ["display"] }
