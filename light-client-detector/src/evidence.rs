@@ -53,6 +53,7 @@ pub fn make_evidence(
 fn conflicting_header_is_invalid(conflicted: &Header, trusted: &Header) -> bool {
     trusted.validators_hash != conflicted.validators_hash
         || trusted.next_validators_hash != conflicted.next_validators_hash
+        || trusted.implicit_hash != conflicted.implicit_hash
         || trusted.consensus_hash != conflicted.consensus_hash
         || trusted.app_hash != conflicted.app_hash
         || trusted.last_results_hash != conflicted.last_results_hash

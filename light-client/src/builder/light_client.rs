@@ -201,7 +201,12 @@ where
                 light_block.signed_header.header.next_validators_hash,
             )
             .map_err(Error::invalid_light_block)?;
-
+        self.predicates
+            .implicit_match(
+                &light_block.implicit_hash,
+                light_block.signed_header.header.implicit_hash,
+            )
+            .map_err(Error::invalid_light_block)?;
         Ok(())
     }
 }

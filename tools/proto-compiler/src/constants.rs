@@ -161,6 +161,7 @@ pub static CUSTOM_FIELD_ATTRIBUTES: &[(&str, &str)] = &[
     (".tendermint.types.Header.data_hash", HEXSTRING),
     (".tendermint.types.Header.validators_hash", HEXSTRING),
     (".tendermint.types.Header.next_validators_hash", HEXSTRING),
+    (".tendermint.types.Header.implicit_hash", HEXSTRING),
     (".tendermint.types.Header.consensus_hash", HEXSTRING),
     (".tendermint.types.Header.app_hash", HEXSTRING),
     (".tendermint.types.Header.last_results_hash", HEXSTRING),

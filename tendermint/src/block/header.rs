@@ -50,6 +50,9 @@ pub struct Header {
     /// Validators for the next block
     pub next_validators_hash: Hash,
 
+    /// implicit messages for the current block
+    pub implicit_hash: Hash,
+
     /// Consensus params for the current block
     pub consensus_hash: Hash,
 
@@ -93,6 +96,7 @@ impl Header {
             self.data_hash.unwrap_or_default().encode_vec(),
             self.validators_hash.encode_vec(),
             self.next_validators_hash.encode_vec(),
+            self.implicit_hash.encode_vec(),
             self.consensus_hash.encode_vec(),
             self.app_hash.clone().encode_vec(),
             self.last_results_hash.unwrap_or_default().encode_vec(),
@@ -195,6 +199,7 @@ tendermint_pb_modules! {
                 },
                 validators_hash: value.validators_hash.try_into()?,
                 next_validators_hash: value.next_validators_hash.try_into()?,
+                implicit_hash: value.implicit_hash.try_into()?,
                 consensus_hash: value.consensus_hash.try_into()?,
                 app_hash: value.app_hash.try_into()?,
                 last_results_hash,
@@ -220,6 +225,7 @@ tendermint_pb_modules! {
                 data_hash: value.data_hash.unwrap_or_default().into(),
                 validators_hash: value.validators_hash.into(),
                 next_validators_hash: value.next_validators_hash.into(),
+                implicit_hash: value.implicit_hash.into(),
                 consensus_hash: value.consensus_hash.into(),
                 app_hash: value.app_hash.into(),
                 last_results_hash: value.last_results_hash.unwrap_or_default().into(),

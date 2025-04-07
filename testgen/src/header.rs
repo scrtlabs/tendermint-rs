@@ -21,6 +21,8 @@ pub struct Header {
         parse(try_from_str = "parse_as::<Vec<Validator>>")
     )]
     pub next_validators: Option<Vec<Validator>>,
+    #[options(help = "implicit block data hash (default: 0)")]
+    pub implicit_hash: Hash,    
     #[options(help = "chain id (default: test-chain)")]
     pub chain_id: Option<String>,
     #[options(help = "block height (default: 1)")]
@@ -89,6 +91,7 @@ impl Header {
         Header {
             validators: Some(validators.to_vec()),
             next_validators: None,
+            implicit_hash: None,
             chain_id: None,
             height: None,
             time: None,
@@ -125,6 +128,7 @@ impl Header {
         Self {
             validators: Some(next_validators.clone()),
             next_validators: Some(next_validators),
+            implicit_hash: self.implicit_hash,
             chain_id: self.chain_id.clone(),
             height: Some(height + 1),
             time: Some((time + Duration::from_secs(1)).unwrap()),
@@ -156,6 +160,7 @@ impl Generator<block::Header> for Header {
             time: self.time.or(default.time),
             proposer: self.proposer.or(default.proposer),
             last_block_id_hash: self.last_block_id_hash.or(default.last_block_id_hash),
+            implicit_hash: self.implicit_hash.or(default.implicit_hash),
             app_hash: self.app_hash.or(default.app_hash),
         }
     }
@@ -208,6 +213,7 @@ impl Generator<block::Header> for Header {
             data_hash: None,
             validators_hash,
             next_validators_hash: next_valset.hash(),
+            implicit_hash: self.implicit_hash,
             consensus_hash: validators_hash, // TODO: currently not clear how to produce a valid hash
             app_hash: self.app_hash.clone().unwrap_or_default(),
             last_results_hash: None,

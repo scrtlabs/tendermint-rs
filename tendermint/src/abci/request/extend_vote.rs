@@ -14,6 +14,7 @@ pub struct ExtendVote {
     pub proposed_last_commit: Option<CommitInfo>,
     pub misbehavior: Vec<Misbehavior>,
     pub next_validators_hash: Hash,
+    pub implicit_hash: Hash,
     pub proposer_address: account::Id,
 }
 
@@ -41,6 +42,7 @@ mod v0_38 {
                     .map(Into::into)
                     .collect(),
                 next_validators_hash: extend_vote.next_validators_hash.into(),
+                implicit_hash: extend_vote.implicit_hash.into(),
                 proposer_address: extend_vote.proposer_address.into(),
             }
         }
@@ -68,6 +70,7 @@ mod v0_38 {
                     .map(TryInto::try_into)
                     .collect::<Result<Vec<_>, _>>()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
+                implicit_hash: message.implicit_hash.into(),
                 proposer_address: message.proposer_address.try_into()?,
             })
         }
