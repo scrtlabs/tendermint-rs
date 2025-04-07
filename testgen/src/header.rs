@@ -22,7 +22,7 @@ pub struct Header {
     )]
     pub next_validators: Option<Vec<Validator>>,
     #[options(help = "implicit block data hash (default: 0)")]
-    pub implicit_hash: Hash,    
+    pub implicit_hash: Option<Hash>,    
     #[options(help = "chain id (default: test-chain)")]
     pub chain_id: Option<String>,
     #[options(help = "block height (default: 1)")]
@@ -213,8 +213,9 @@ impl Generator<block::Header> for Header {
             data_hash: None,
             validators_hash,
             next_validators_hash: next_valset.hash(),
-            implicit_hash: self.implicit_hash,
+            implicit_hash: Hash::None,
             consensus_hash: validators_hash, // TODO: currently not clear how to produce a valid hash
+            encrypted_random: None,
             app_hash: self.app_hash.clone().unwrap_or_default(),
             last_results_hash: None,
             evidence_hash: None,

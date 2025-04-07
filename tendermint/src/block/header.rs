@@ -65,6 +65,7 @@ pub struct Header {
     /// Hash of evidence included in the block
     pub evidence_hash: Option<Hash>,
 
+    pub encrypted_random: Option<tendermint_proto::types::EncryptedRandom>,
     /// Original proposer of the block
     pub proposer_address: account::Id,
 }
@@ -203,6 +204,7 @@ tendermint_pb_modules! {
                 consensus_hash: value.consensus_hash.try_into()?,
                 app_hash: value.app_hash.try_into()?,
                 last_results_hash,
+                encrypted_random: None,
                 evidence_hash: if value.evidence_hash.is_empty() {
                     None
                 } else {
@@ -228,6 +230,7 @@ tendermint_pb_modules! {
                 implicit_hash: value.implicit_hash.into(),
                 consensus_hash: value.consensus_hash.into(),
                 app_hash: value.app_hash.into(),
+                encrypted_random: None,
                 last_results_hash: value.last_results_hash.unwrap_or_default().into(),
                 evidence_hash: value.evidence_hash.unwrap_or_default().into(),
                 proposer_address: value.proposer_address.into(),

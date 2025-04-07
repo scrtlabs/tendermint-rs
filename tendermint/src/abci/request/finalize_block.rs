@@ -44,6 +44,7 @@ mod v0_38 {
     impl From<FinalizeBlock> for pb::abci::RequestFinalizeBlock {
         fn from(value: FinalizeBlock) -> Self {
             Self {
+                commit: None,
                 txs: value.txs,
                 decided_last_commit: Some(value.decided_last_commit.into()),
                 misbehavior: value.misbehavior.into_iter().map(Into::into).collect(),
@@ -52,6 +53,7 @@ mod v0_38 {
                 time: Some(value.time.into()),
                 next_validators_hash: value.next_validators_hash.into(),
                 implicit_hash: value.implicit_hash.into(),
+                encrypted_random: None,
                 proposer_address: value.proposer_address.into(),
             }
         }

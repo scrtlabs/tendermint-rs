@@ -148,7 +148,7 @@ where
     }
 
     pub fn verify_implicit(&self, untrusted: &UntrustedBlockState<'_>) -> Verdict {
-            verdict!(self.predicates.implicit_match(
+            verdict!(self.predicates.implicit_hash_match(
                 untrusted.implicit_hash,
                 untrusted.signed_header.header.implicit_hash,
             ));

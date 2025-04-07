@@ -70,7 +70,7 @@ mod v0_38 {
                     .map(TryInto::try_into)
                     .collect::<Result<Vec<_>, _>>()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
-                implicit_hash: message.implicit_hash.into(),
+                implicit_hash: message.implicit_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
             })
         }

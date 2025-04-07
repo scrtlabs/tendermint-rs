@@ -92,6 +92,7 @@ pub struct UntrustedBlockState<'a> {
     pub signed_header: &'a SignedHeader,
     pub validators: &'a ValidatorSet,
     pub next_validators: Option<&'a ValidatorSet>,
+    pub implicit_hash: Hash,
 }
 
 impl<'a> UntrustedBlockState<'a> {
@@ -170,6 +171,7 @@ impl LightBlock {
             signed_header: &self.signed_header,
             validators: &self.validators,
             next_validators: Some(&self.next_validators),
+            implicit_hash: self.signed_header.header.implicit_hash,
         }
     }
 }
