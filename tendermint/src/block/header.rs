@@ -97,12 +97,12 @@ impl Header {
             self.data_hash.unwrap_or_default().encode_vec(),
             self.validators_hash.encode_vec(),
             self.next_validators_hash.encode_vec(),
-            self.implicit_hash.encode_vec(),
             self.consensus_hash.encode_vec(),
             self.app_hash.clone().encode_vec(),
             self.last_results_hash.unwrap_or_default().encode_vec(),
             self.evidence_hash.unwrap_or_default().encode_vec(),
             self.proposer_address.encode_vec(),
+            self.implicit_hash.encode_vec(),
         ];
 
         Hash::Sha256(merkle::simple_hash_from_byte_vectors::<H>(&fields_bytes))
