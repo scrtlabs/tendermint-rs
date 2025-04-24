@@ -344,6 +344,10 @@ impl NonAbsentCommitVotes {
                 .sign_bytes_into(&mut self.sign_bytes)
                 .expect("buffer is resized if needed and encoding never fails");
             let sign_bytes = self.sign_bytes.as_slice();
+            log::debug!(
+                "Verifying signature for validator {}: {:?}",
+                validator.address, sign_bytes
+            );
             validator
                 .verify_signature::<V>(sign_bytes, vote.signed_vote.signature())
                 .map_err(|_| {
