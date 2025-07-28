@@ -50,6 +50,9 @@ pub struct Header {
     /// Validators for the next block
     pub next_validators_hash: Hash,
 
+    /// implicit messages for the current block
+    pub implicit_hash: Hash,
+
     /// Consensus params for the current block
     pub consensus_hash: Hash,
 
@@ -62,6 +65,7 @@ pub struct Header {
     /// Hash of evidence included in the block
     pub evidence_hash: Option<Hash>,
 
+    pub encrypted_random: Option<tendermint_proto::types::EncryptedRandom>,
     /// Original proposer of the block
     pub proposer_address: account::Id,
 }
@@ -98,6 +102,7 @@ impl Header {
             self.last_results_hash.unwrap_or_default().encode_vec(),
             self.evidence_hash.unwrap_or_default().encode_vec(),
             self.proposer_address.encode_vec(),
+            self.implicit_hash.encode_vec(),
         ];
 
         Hash::Sha256(merkle::simple_hash_from_byte_vectors::<H>(&fields_bytes))
@@ -195,9 +200,11 @@ tendermint_pb_modules! {
                 },
                 validators_hash: value.validators_hash.try_into()?,
                 next_validators_hash: value.next_validators_hash.try_into()?,
+                implicit_hash: value.implicit_hash.try_into()?,
                 consensus_hash: value.consensus_hash.try_into()?,
                 app_hash: value.app_hash.try_into()?,
                 last_results_hash,
+                encrypted_random: None,
                 evidence_hash: if value.evidence_hash.is_empty() {
                     None
                 } else {
@@ -220,8 +227,10 @@ tendermint_pb_modules! {
                 data_hash: value.data_hash.unwrap_or_default().into(),
                 validators_hash: value.validators_hash.into(),
                 next_validators_hash: value.next_validators_hash.into(),
+                implicit_hash: value.implicit_hash.into(),
                 consensus_hash: value.consensus_hash.into(),
                 app_hash: value.app_hash.into(),
+                encrypted_random: None,
                 last_results_hash: value.last_results_hash.unwrap_or_default().into(),
                 evidence_hash: value.evidence_hash.unwrap_or_default().into(),
                 proposer_address: value.proposer_address.into(),

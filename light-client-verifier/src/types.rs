@@ -84,6 +84,7 @@ pub struct TrustedBlockState<'a> {
     pub height: Height,
     pub next_validators: &'a ValidatorSet,
     pub next_validators_hash: Hash,
+    pub implicit_hash: Hash,
 }
 
 /// Untrusted block parameters needed for light client verification.
@@ -91,6 +92,7 @@ pub struct UntrustedBlockState<'a> {
     pub signed_header: &'a SignedHeader,
     pub validators: &'a ValidatorSet,
     pub next_validators: Option<&'a ValidatorSet>,
+    pub implicit_hash: Hash,
 }
 
 impl<'a> UntrustedBlockState<'a> {
@@ -158,6 +160,7 @@ impl LightBlock {
             height: self.signed_header.header.height,
             next_validators: &self.next_validators,
             next_validators_hash: self.signed_header.header.next_validators_hash,
+            implicit_hash: self.signed_header.header.implicit_hash,
         }
     }
 
@@ -168,6 +171,7 @@ impl LightBlock {
             signed_header: &self.signed_header,
             validators: &self.validators,
             next_validators: Some(&self.next_validators),
+            implicit_hash: self.signed_header.header.implicit_hash,
         }
     }
 }
