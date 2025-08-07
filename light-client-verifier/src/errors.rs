@@ -95,11 +95,11 @@ define_error! {
 
         InvalidImplicitHash
             {
-                header_implicit_hash: Hash,
-                implicit_hash: Hash,
+                header_implicit_hash: Option<Hash>,
+                implicit_hash: Option<Hash>,
             }
             | e | {
-                format_args!("invalid implicit hash: header_implicit_hash={0} implicit_hash={1}",
+                format_args!("invalid implicit hash: header_implicit_hash={:?} implicit_hash={:?}",
                     e.header_implicit_hash, e.implicit_hash)
             },
 

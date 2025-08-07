@@ -213,7 +213,7 @@ impl Generator<block::Header> for Header {
             data_hash: None,
             validators_hash,
             next_validators_hash: next_valset.hash(),
-            implicit_hash: Hash::None,
+            implicit_hash: None,
             consensus_hash: validators_hash, // TODO: currently not clear how to produce a valid hash
             encrypted_random: None,
             app_hash: self.app_hash.clone().unwrap_or_default(),

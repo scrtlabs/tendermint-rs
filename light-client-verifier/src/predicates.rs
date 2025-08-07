@@ -71,8 +71,8 @@ pub trait VerificationPredicates: Send + Sync {
 
     fn implicit_hash_match(
             &self,
-            implicit_hash: Hash,
-            header_implicit_hash: Hash,
+            implicit_hash: Option<Hash>,
+            header_implicit_hash: Option<Hash>,
         ) -> Result<(), VerificationError> {
             if header_implicit_hash == implicit_hash {
                 Ok(())
