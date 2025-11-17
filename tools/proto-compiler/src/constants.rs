@@ -17,25 +17,24 @@ pub struct TendermintVersion {
 /// All Tendermint versions to generate code for
 pub const TENDERMINT_VERSIONS: &[TendermintVersion] = &[
     TendermintVersion {
-        repo: "https://github.com/scrtlabs/tendermint",
+        repo: "https://github.com/cometbft/cometbft",
         ident: "v0_34",
-        commitish: "v0.34.35-secret.1",
+        commitish: "v0.34.29",
     },
     TendermintVersion {
-        repo: "https://github.com/scrtlabs/tendermint",
+        repo: "https://github.com/cometbft/cometbft",
         ident: "v0_37",
-        commitish: "v0.37.11-secret.2",
+        commitish: "v0.37.2",
     },
     TendermintVersion {
-        repo: "https://github.com/scrtlabs/tendermint",
+        repo: "https://github.com/cometbft/cometbft",
         ident: "v0_38",
-        commitish: "v0.38.17-secret.2",
+        commitish: "v0.38.0",
     },
 ];
 
 /// Predefined custom attributes for message annotations
 const SERIALIZED: &str = r#"#[derive(::serde::Deserialize, ::serde::Serialize)]"#;
-const EQ: &str = r#"#[derive(core::cmp::Eq)]"#;
 const TYPE_TAG: &str = r#"#[serde(tag = "type", content = "value")]"#;
 
 /// Predefined custom attributes for field annotations
@@ -100,8 +99,6 @@ pub static CUSTOM_TYPE_ATTRIBUTES: &[(&str, &str)] = &[
     (".tendermint.types.EvidenceList", SERIALIZED),
     (".tendermint.types.EvidenceParams", SERIALIZED),
     (".tendermint.types.Header", SERIALIZED),
-    (".tendermint.types.EncryptedRandom", SERIALIZED),
-    (".tendermint.types.EncryptedRandom", EQ),
     (".tendermint.types.LightBlock", SERIALIZED),
     (".tendermint.types.LightClientAttackEvidence", SERIALIZED),
     (
@@ -164,7 +161,6 @@ pub static CUSTOM_FIELD_ATTRIBUTES: &[(&str, &str)] = &[
     (".tendermint.types.Header.data_hash", HEXSTRING),
     (".tendermint.types.Header.validators_hash", HEXSTRING),
     (".tendermint.types.Header.next_validators_hash", HEXSTRING),
-    (".tendermint.types.Header.implicit_hash", HEXSTRING),
     (".tendermint.types.Header.consensus_hash", HEXSTRING),
     (".tendermint.types.Header.app_hash", HEXSTRING),
     (".tendermint.types.Header.last_results_hash", HEXSTRING),

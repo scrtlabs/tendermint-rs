@@ -147,15 +147,6 @@ where
         Verdict::Success
     }
 
-    pub fn verify_implicit(&self, untrusted: &UntrustedBlockState<'_>) -> Verdict {
-            verdict!(self.predicates.implicit_hash_match(
-                untrusted.implicit_hash,
-                untrusted.signed_header.header.implicit_hash,
-            ));
-    
-            Verdict::Success
-        }
-
     /// Validate an `UntrustedBlockState` coming from a client update,
     /// based on the given `TrustedBlockState`, `Options` and current time.
     pub fn validate_against_trusted(
@@ -309,7 +300,6 @@ where
         now: Time,
     ) -> Verdict {
         ensure_verdict_success!(self.verify_validator_sets(&untrusted));
-        ensure_verdict_success!(self.verify_implicit(&untrusted));
         ensure_verdict_success!(self.validate_against_trusted(&untrusted, &trusted, options, now));
         ensure_verdict_success!(self.check_header_is_from_past(&untrusted, options, now));
         ensure_verdict_success!(self.verify_commit_against_trusted(&untrusted, &trusted, options));
@@ -328,7 +318,6 @@ where
         now: Time,
     ) -> Verdict {
         ensure_verdict_success!(self.verify_validator_sets(&untrusted));
-        ensure_verdict_success!(self.verify_implicit(&untrusted));
         ensure_verdict_success!(self.validate_against_trusted(&untrusted, &trusted, options, now));
         ensure_verdict_success!(self.verify_commit_against_trusted(&untrusted, &trusted, options));
         Verdict::Success

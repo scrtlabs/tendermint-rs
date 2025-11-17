@@ -93,16 +93,6 @@ define_error! {
                     e.header_next_validators_hash, e.next_validators_hash)
             },
 
-        InvalidImplicitHash
-            {
-                header_implicit_hash: Hash,
-                implicit_hash: Hash,
-            }
-            | e | {
-                format_args!("invalid implicit hash: header_implicit_hash={0} implicit_hash={1}",
-                    e.header_implicit_hash, e.implicit_hash)
-            },
-
         InvalidValidatorSet
             {
                 header_validators_hash: Hash,
