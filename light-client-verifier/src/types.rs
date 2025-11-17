@@ -84,7 +84,7 @@ pub struct TrustedBlockState<'a> {
     pub height: Height,
     pub next_validators: &'a ValidatorSet,
     pub next_validators_hash: Hash,
-    pub implicit_hash: Option<Hash>,
+    pub implicit_hash: Hash,
 }
 
 /// Untrusted block parameters needed for light client verification.
@@ -92,7 +92,7 @@ pub struct UntrustedBlockState<'a> {
     pub signed_header: &'a SignedHeader,
     pub validators: &'a ValidatorSet,
     pub next_validators: Option<&'a ValidatorSet>,
-    pub implicit_hash: Option<Hash>,
+    pub implicit_hash: Hash,
 }
 
 impl<'a> UntrustedBlockState<'a> {

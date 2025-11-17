@@ -51,7 +51,7 @@ pub struct Header {
     pub next_validators_hash: Hash,
 
     /// implicit messages for the current block
-    pub implicit_hash: Option<Hash>,
+    pub implicit_hash: Hash,
 
     /// Consensus params for the current block
     pub consensus_hash: Hash,
@@ -87,7 +87,7 @@ impl Header {
         // https://github.com/tendermint/tendermint/blob/134fe2896275bb926b49743c1e25493f6b24cc31/types/block.go#L393
         // https://github.com/tendermint/tendermint/blob/134fe2896275bb926b49743c1e25493f6b24cc31/types/encoding_helper.go#L9:6
 
-        let mut fields_bytes = vec![
+        let fields_bytes = vec![
             Protobuf::<RawConsensusVersion>::encode_vec(self.version),
             self.chain_id.clone().encode_vec(),
             self.height.encode_vec(),
@@ -102,11 +102,8 @@ impl Header {
             self.last_results_hash.unwrap_or_default().encode_vec(),
             self.evidence_hash.unwrap_or_default().encode_vec(),
             self.proposer_address.encode_vec(),
+            self.implicit_hash.encode_vec(),
         ];
-
-        if let Some(ref implicit_hash) = self.implicit_hash {
-            fields_bytes.push(implicit_hash.encode_vec());
-        }
 
         Hash::Sha256(merkle::simple_hash_from_byte_vectors::<H>(&fields_bytes))
     }
@@ -203,11 +200,7 @@ tendermint_pb_modules! {
                 },
                 validators_hash: value.validators_hash.try_into()?,
                 next_validators_hash: value.next_validators_hash.try_into()?,
-                implicit_hash: if value.implicit_hash.is_empty() {
-                    None
-                } else {
-                    Some(value.implicit_hash.try_into()?)
-                },
+                implicit_hash: value.implicit_hash.try_into()?,
                 consensus_hash: value.consensus_hash.try_into()?,
                 app_hash: value.app_hash.try_into()?,
                 last_results_hash,
@@ -234,7 +227,7 @@ tendermint_pb_modules! {
                 data_hash: value.data_hash.unwrap_or_default().into(),
                 validators_hash: value.validators_hash.into(),
                 next_validators_hash: value.next_validators_hash.into(),
-                implicit_hash: value.implicit_hash.unwrap_or_default().into(),
+                implicit_hash: value.implicit_hash.into(),
                 consensus_hash: value.consensus_hash.into(),
                 app_hash: value.app_hash.into(),
                 encrypted_random: None,
