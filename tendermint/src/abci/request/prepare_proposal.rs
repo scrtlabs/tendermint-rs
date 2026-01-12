@@ -19,7 +19,6 @@ pub struct PrepareProposal {
     pub height: block::Height,
     pub time: Time,
     pub next_validators_hash: Hash,
-    pub implicit_hash: Hash,
     /// address of the public key of the validator proposing the block.
     pub proposer_address: account::Id,
 }
@@ -44,7 +43,6 @@ mod v0_37 {
                 height: value.height.into(),
                 time: Some(value.time.into()),
                 next_validators_hash: value.next_validators_hash.into(),
-                implicit_hash: value.implicit_hash.into(),
                 proposer_address: value.proposer_address.into(),
             }
         }
@@ -72,7 +70,6 @@ mod v0_37 {
                     .ok_or_else(Error::missing_timestamp)?
                     .try_into()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
-                implicit_hash: message.implicit_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
             };
             Ok(req)
@@ -98,7 +95,6 @@ mod v0_38 {
                 height: value.height.into(),
                 time: Some(value.time.into()),
                 next_validators_hash: value.next_validators_hash.into(),
-                implicit_hash: value.implicit_hash.into(),
                 proposer_address: value.proposer_address.into(),
             }
         }
@@ -126,7 +122,6 @@ mod v0_38 {
                     .ok_or_else(Error::missing_timestamp)?
                     .try_into()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
-                implicit_hash: message.implicit_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
             };
             Ok(req)

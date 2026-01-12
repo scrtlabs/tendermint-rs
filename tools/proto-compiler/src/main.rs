@@ -118,7 +118,7 @@ fn main() {
         // TODO: this is tracked in https://github.com/informalsystems/tendermint-rs/issues/1134
         //.server_mod_attribute("tendermint.privval", "#[cfg(feature = \"grpc-server\")]")
 
-        match builder.compile_protos_with_config(pb, &protos, &proto_includes_paths) {
+        match builder.compile_with_config(pb, &protos, &proto_includes_paths) {
             Ok(()) => {},
             Err(e) => {
                 eprintln!("{}", e);

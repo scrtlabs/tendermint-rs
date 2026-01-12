@@ -69,21 +69,6 @@ pub trait VerificationPredicates: Send + Sync {
         }
     }
 
-    fn implicit_hash_match(
-            &self,
-            implicit_hash: Option<Hash>,
-            header_implicit_hash: Option<Hash>,
-        ) -> Result<(), VerificationError> {
-            if header_implicit_hash == implicit_hash {
-                Ok(())
-            } else {
-                Err(VerificationError::invalid_implicit_hash(
-                    header_implicit_hash,
-                    implicit_hash,
-                ))
-            }
-        }    
-
     /// Check that the hash of the header in the commit matches the actual one.
     fn header_matches_commit(
         &self,
